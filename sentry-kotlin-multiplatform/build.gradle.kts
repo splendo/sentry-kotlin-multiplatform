@@ -30,12 +30,6 @@ kotlin {
     jvm()
     ios()
     iosSimulatorArm64()
-    watchos()
-    watchosSimulatorArm64()
-    tvos()
-    tvosSimulatorArm64()
-    macosX64()
-    macosArm64()
 
     sourceSets {
         val commonMain by getting {
@@ -93,47 +87,13 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
 
-        val tvosMain by getting
-        val tvosSimulatorArm64Main by getting
-        val tvosTest by getting
-        val tvosSimulatorArm64Test by getting
-
-        val watchosMain by getting
-        val watchosSimulatorArm64Main by getting
-        val watchosTest by getting
-        val watchosSimulatorArm64Test by getting
-
-        val macosX64Main by getting
-        val macosArm64Main by getting
-        val macosX64Test by getting
-        val macosArm64Test by getting
-
-        val commonTvWatchMacOsMain by creating {
-            tvosMain.dependsOn(this)
-            tvosSimulatorArm64Main.dependsOn(this)
-            watchosMain.dependsOn(this)
-            watchosSimulatorArm64Main.dependsOn(this)
-            macosArm64Main.dependsOn(this)
-            macosX64Main.dependsOn(this)
-        }
-        val commonTvWatchMacOsTest by creating {
-            tvosTest.dependsOn(this)
-            tvosSimulatorArm64Test.dependsOn(this)
-            watchosTest.dependsOn(this)
-            watchosSimulatorArm64Test.dependsOn(this)
-            macosX64Test.dependsOn(this)
-            macosArm64Test.dependsOn(this)
-        }
-
         val commonAppleMain by creating {
             dependsOn(commonMain)
             commonIosMain.dependsOn(this)
-            commonTvWatchMacOsMain.dependsOn(this)
         }
         val commonAppleTest by creating {
             dependsOn(commonTest)
             commonIosTest.dependsOn(this)
-            commonTvWatchMacOsTest.dependsOn(this)
         }
 
         cocoapods {
@@ -143,9 +103,6 @@ kotlin {
             pod("Sentry", "~> 7.21.0")
 
             ios.deploymentTarget = "9.0"
-            osx.deploymentTarget = "10.10"
-            tvos.deploymentTarget = "9.0"
-            watchos.deploymentTarget = "2.0"
         }
     }
 
@@ -153,15 +110,6 @@ kotlin {
         iosArm64(),
         iosX64(),
         iosSimulatorArm64(),
-        watchosArm32(),
-        watchosArm64(),
-        watchosX64(),
-        watchosSimulatorArm64(),
-        tvosArm64(),
-        tvosX64(),
-        tvosSimulatorArm64(),
-        macosX64(),
-        macosArm64()
     ).forEach {
         it.compilations.getByName("main") {
             cinterops.create("Sentry.NSException") {

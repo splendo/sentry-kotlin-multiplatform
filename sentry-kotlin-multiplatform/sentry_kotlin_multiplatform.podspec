@@ -1,24 +1,25 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'sentry_kotlin_multiplatform'
-    spec.version                  = '0.0.1'
+    spec.version                  = '0.0.1-splendo'
     spec.homepage                 = 'https://github.com/getsentry/sentry-kotlin-multiplatform'
-    spec.source                   = { :http=> ''}
+    spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'Official Sentry SDK Kotlin Multiplatform'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/sentry_kotlin_multiplatform.framework'
-    spec.libraries                = 'c++'
+
+    spec.vendored_frameworks      = "build/cocoapods/framework/sentry_kotlin_multiplatform.framework"
+    spec.libraries                = "c++"
+    spec.module_name              = "#{spec.name}_umbrella"
+
     spec.ios.deployment_target = '9.0'
-    spec.osx.deployment_target = '10.10'
-    spec.tvos.deployment_target = '9.0'
-    spec.watchos.deployment_target = '2.0'
+
     spec.dependency 'Sentry', '~> 7.21.0'
-                
+
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':sentry-kotlin-multiplatform',
         'PRODUCT_MODULE_NAME' => 'sentry_kotlin_multiplatform',
     }
-                
+
     spec.script_phases = [
         {
             :name => 'Build sentry_kotlin_multiplatform',
@@ -34,9 +35,8 @@ Pod::Spec.new do |spec|
                 "$REPO_ROOT/../gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME \
                     -Pkotlin.native.cocoapods.archs="$ARCHS" \
-                    -Pkotlin.native.cocoapods.configuration="$CONFIGURATION"
+                    -Pkotlin.native.cocoapods.configuration=$CONFIGURATION
             SCRIPT
         }
     ]
-                
 end
