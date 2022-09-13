@@ -39,6 +39,7 @@ import NSException.Sentry.threadInspector
 import kotlinx.cinterop.UnsafeNumber
 import platform.Foundation.NSException
 import platform.Foundation.NSNumber
+import kotlin.native.concurrent.freeze
 
 /**
  * Drops the Kotlin crash that follows an unhandled Kotlin exception except our custom SentryEvent.
@@ -104,6 +105,7 @@ private fun Throwable.asSentryEvent(): SentryEvent = SentryEvent(kSentryLevelFat
     exceptions = this@asSentryEvent
         .let { throwable -> throwable.causes.asReversed() + throwable }
         .map { it.asNSException().asSentryException(currentThread?.threadId) }
+    freeze()
 }
 
 /**
