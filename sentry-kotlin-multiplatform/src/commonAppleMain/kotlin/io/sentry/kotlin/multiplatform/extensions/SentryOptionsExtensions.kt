@@ -5,6 +5,7 @@ import io.sentry.kotlin.multiplatform.CocoaSentryOptions
 import io.sentry.kotlin.multiplatform.SentryOptions
 import io.sentry.kotlin.multiplatform.nsexception.dropKotlinCrashEvent
 import kotlinx.cinterop.convert
+import kotlin.native.concurrent.freeze
 import NSException.Sentry.SentryEvent as NSExceptionSentryEvent
 
 internal fun SentryOptions.toCocoaOptionsConfiguration(): (CocoaSentryOptions?) -> Unit = {
@@ -24,7 +25,7 @@ internal fun CocoaSentryOptions.applyCocoaBaseOptions(options: SentryOptions) {
     this.debug = options.debug
     this.sessionTrackingIntervalMillis = options.sessionTrackingIntervalMillis.convert()
     this.enableAutoSessionTracking = options.enableAutoSessionTracking
-    this.beforeSend = { event ->
+    this.beforeSend = { event:SentryEvent? ->
         dropKotlinCrashEvent(event as NSExceptionSentryEvent?) as SentryEvent?
-    }
+    }.freeze()
 }
