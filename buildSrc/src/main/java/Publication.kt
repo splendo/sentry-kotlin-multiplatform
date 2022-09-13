@@ -13,20 +13,10 @@ val sep = File.separator
 fun DistributionContainer.configureForMultiplatform(project: Project) {
     val version = project.properties["versionName"].toString()
 
-    this.maybeCreate("android").contents {
-        from("build${sep}publications${sep}androidRelease")
-        from("build${sep}outputs${sep}aar${sep}sentry-kotlin-multiplatform-release.aar") {
-            rename {
-                it.replace("-release", "-android-release")
-            }
-        }
-        from("build${sep}libs") {
-            include("*android*")
-            withJavadoc("android")
-        }
-    }
     this.getByName("main").contents {
-        from("build${sep}publications${sep}kotlinMultiplatform")
+        from("build${sep}publications${sep}kotlinMultiplatform") {
+            renameModule(version = version)
+        }
         from("build${sep}kotlinToolingMetadata")
         from("build${sep}libs") {
             include("sentry-kotlin-multiplatform-?.?.*")
@@ -37,103 +27,143 @@ fun DistributionContainer.configureForMultiplatform(project: Project) {
             }
         }
     }
+    this.maybeCreate("android").contents {
+        from("build${sep}publications${sep}androidRelease") {
+            renameModule("android", version)
+        }
+        from("build${sep}outputs${sep}aar${sep}sentry-kotlin-multiplatform-release.aar") {
+            rename {
+                it.replace("-release", "-android-release")
+            }
+        }
+        from("build${sep}libs") {
+            include("*android*")
+            withJavadoc("android")
+        }
+    }
     this.maybeCreate("jvm").contents {
-        from("build${sep}publications${sep}jvm")
+        from("build${sep}publications${sep}jvm") {
+            renameModule("jvm", version)
+        }
         from("build${sep}libs$sep") {
             include("*jvm*")
             withJavadoc("jvm")
         }
     }
-    this.maybeCreate("iosArm64").contents {
-        from("build${sep}publications${sep}iosArm64")
+    this.maybeCreate("iosarm64").contents {
+        from("build${sep}publications${sep}iosArm64") {
+            renameModule("iosarm64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-iosarm64*")
             withJavadoc("iosarm64")
         }
         fromKlib("iosArm64", version)
     }
-    this.maybeCreate("iosX64").contents {
-        from("build${sep}publications${sep}iosX64")
+    this.maybeCreate("iosx64").contents {
+        from("build${sep}publications${sep}iosX64") {
+            renameModule("iosx64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-iosx64*")
             withJavadoc("iosx64")
         }
         fromKlib("iosX64", version)
     }
-    this.maybeCreate("iosSimulatorArm64").contents {
-        from("build${sep}publications${sep}iosSimulatorArm64")
+    this.maybeCreate("iossimulatorarm64").contents {
+        from("build${sep}publications${sep}iosSimulatorArm64") {
+            renameModule("iossimulatorarm64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-iossimulatorarm64*")
             withJavadoc("iossimulatorarm64")
         }
         fromKlib("iosSimulatorArm64", version)
     }
-    this.maybeCreate("macosArm64").contents {
-        from("build${sep}publications${sep}macosArm64")
+    this.maybeCreate("macosarm64").contents {
+        from("build${sep}publications${sep}macosArm64") {
+            renameModule("macosarm64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-macosarm64*")
             withJavadoc("macosarm64")
         }
         fromKlib("macosArm64", version)
     }
-    this.maybeCreate("macosX64").contents {
-        from("build${sep}publications${sep}macosX64")
+    this.maybeCreate("macosx64").contents {
+        from("build${sep}publications${sep}macosX64") {
+            renameModule("macosx64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-macosx64*")
             withJavadoc("macosx64")
         }
         fromKlib("macosX64", version)
     }
-    this.maybeCreate("watchosX64").contents {
-        from("build${sep}publications${sep}watchosX64")
+    this.maybeCreate("watchosx64").contents {
+        from("build${sep}publications${sep}watchosX64") {
+            renameModule("watchosx64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-watchosx64*")
             withJavadoc("watchosx64")
         }
         fromKlib("watchosX64", version)
     }
-    this.maybeCreate("watchosArm32").contents {
-        from("build${sep}publications${sep}watchosArm32")
+    this.maybeCreate("watchosarm32").contents {
+        from("build${sep}publications${sep}watchosArm32") {
+            renameModule("watchosarm32", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-watchosarm32*")
             withJavadoc("watchosarm32")
         }
         fromKlib("watchosArm32", version)
     }
-    this.maybeCreate("watchosArm64").contents {
-        from("build${sep}publications${sep}watchosArm64")
+    this.maybeCreate("watchosarm64").contents {
+        from("build${sep}publications${sep}watchosArm64") {
+            renameModule("watchosarm64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-watchosarm64*")
             withJavadoc("watchosarm64")
         }
         fromKlib("watchosArm64", version)
     }
-    this.maybeCreate("watchosSimulatorArm64").contents {
-        from("build${sep}publications${sep}watchosSimulatorArm64")
+    this.maybeCreate("watchossimulatorarm64").contents {
+        from("build${sep}publications${sep}watchosSimulatorArm64") {
+            renameModule("watchossimulatorarm64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-watchossimulatorarm64*")
             withJavadoc("watchossimulatorarm64")
         }
         fromKlib("watchosSimulatorArm64", version)
     }
-    this.maybeCreate("tvosArm64").contents {
-        from("build${sep}publications${sep}tvosArm64")
+    this.maybeCreate("tvosarm64").contents {
+        from("build${sep}publications${sep}tvosArm64") {
+            renameModule("tvosarm64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-tvosarm64*")
             withJavadoc("tvosarm64")
         }
         fromKlib("tvosArm64", version)
     }
-    this.maybeCreate("tvosX64").contents {
-        from("build${sep}publications${sep}tvosX64")
+    this.maybeCreate("tvosx64").contents {
+        from("build${sep}publications${sep}tvosX64") {
+            renameModule("tvosx64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-tvosx64*")
             withJavadoc("tvosx64")
         }
         fromKlib("tvosX64", version)
     }
-    this.maybeCreate("tvosSimulatorArm64").contents {
-        from("build${sep}publications${sep}tvosSimulatorArm64")
+    this.maybeCreate("tvossimulatorarm64").contents {
+        from("build${sep}publications${sep}tvosSimulatorArm64") {
+            renameModule("tvossimulatorarm64", version)
+        }
         from("build${sep}libs$sep") {
             include("sentry-kotlin-multiplatform-tvossimulatorarm64*")
             withJavadoc("tvossimulatorarm64")
@@ -159,6 +189,16 @@ private fun CopySpec.fromKlib(target: String, version: String) {
         rename {
             "sentry-kotlin-multiplatform-${target.toLowerCase()}-$version.klib"
         }
+    }
+}
+
+private fun CopySpec.renameModule(renameTo: String = "", version: String) {
+    var target = ""
+    if (!renameTo.isEmpty()) {
+        target = "-$renameTo"
+    }
+    rename {
+        it.replace("module.json", "sentry-kotlin-multiplatform$target-$version.module")
     }
 }
 
