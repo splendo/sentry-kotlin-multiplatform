@@ -88,25 +88,25 @@ private fun Throwable.asSentryEnvelope(): SentryEnvelope {
  */
 @Suppress("UnnecessaryOptInAnnotation")
 @OptIn(UnsafeNumber::class)
-private fun Throwable.asSentryEvent(): SentryEvent = SentryEvent(kSentryLevelFatal).freeze()
-//    .apply {
-//    isCrashEvent = true
-//    @Suppress("UNCHECKED_CAST")
-//    val threads = threadInspector?.getCurrentThreadsWithStackTrace() as List<SentryThread>?
-//    this.threads = threads
-//    val currentThread = threads?.firstOrNull { it.current?.boolValue ?: false }?.apply {
-//        NSExceptionKt_SentryThreadSetCrashed(this)
-//        // Crashed threats shouldn't have a stacktrace, the thread_id should be set on the exception instead
-//        // https://develop.sentry.dev/sdk/event-payloads/threads/
-//        stacktrace = null
-//    }
-//    debugMeta = threads?.let {
-//        SentryDependencyContainer.sharedInstance().debugImageProvider.getDebugImagesForThreads(it)
-//    }
-//    exceptions = this@asSentryEvent
-//        .let { throwable -> throwable.causes.asReversed() + throwable }
-//        .map { it.asNSException().asSentryException(currentThread?.threadId) }
-//}
+private fun Throwable.asSentryEvent(): SentryEvent = SentryEvent(kSentryLevelFatal)
+    .apply {
+    isCrashEvent = true
+    @Suppress("UNCHECKED_CAST")
+    val threads = threadInspector?.getCurrentThreadsWithStackTrace() as List<SentryThread>?
+    this.threads = threads
+    val currentThread = threads?.firstOrNull { it.current?.boolValue ?: false }?.apply {
+        NSExceptionKt_SentryThreadSetCrashed(this)
+        // Crashed threats shouldn't have a stacktrace, the thread_id should be set on the exception instead
+        // https://develop.sentry.dev/sdk/event-payloads/threads/
+        stacktrace = null
+    }
+    debugMeta = threads?.let {
+        SentryDependencyContainer.sharedInstance().debugImageProvider.getDebugImagesForThreads(it)
+    }
+    exceptions = this@asSentryEvent
+        .let { throwable -> throwable.causes.asReversed() + throwable }
+        .map { it.asNSException().asSentryException(currentThread?.threadId) }
+}
 
 /**
  * Converts `this` [NSException] to a [SentryException].
