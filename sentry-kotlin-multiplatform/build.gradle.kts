@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    `maven-publish`
+    id("maven-publish")
 }
 
 android {
@@ -25,7 +25,7 @@ android {
 
 kotlin {
     android {
-        publishLibraryVariants("release")
+        publishAllLibraryVariants()
     }
     jvm()
     ios()
