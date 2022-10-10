@@ -16,6 +16,7 @@ local.properties
 .database
 
 Pods/
+Gemfile.lock
 
 .project
 .settings

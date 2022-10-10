@@ -1,4 +1,5 @@
 source 'https://rubygems.org/'
 
 gem 'ffi'
-gem 'cocoapods-generate'
+gem 'cocoapods'
+gem 'cocoapods-generate', '~>2.2.0'
