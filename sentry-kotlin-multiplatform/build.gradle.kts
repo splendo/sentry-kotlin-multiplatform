@@ -46,7 +46,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation("io.sentry:sentry-android:6.3.1") {
+                implementation("io.sentry:sentry-android:6.17.0") {
                     // avoid duplicate dependencies since we depend on commonJvmMain
                     exclude("io.sentry", "sentry")
                 }
@@ -61,7 +61,7 @@ kotlin {
             jvmMain.dependsOn(this)
             androidMain.dependsOn(this)
             dependencies {
-                implementation("io.sentry:sentry:6.3.1")
+                implementation("io.sentry:sentry:6.17.0")
             }
         }
         val commonJvmTest by creating {
@@ -100,9 +100,9 @@ kotlin {
             summary = "Official Sentry SDK Kotlin Multiplatform"
             homepage = "https://github.com/getsentry/sentry-kotlin-multiplatform"
 
-            pod("Sentry", "~> 7.24.1")
+            pod("Sentry", "~> 8.3.3")
 
-            ios.deploymentTarget = "9.0"
+            ios.deploymentTarget = "16.2"
         }
     }
 

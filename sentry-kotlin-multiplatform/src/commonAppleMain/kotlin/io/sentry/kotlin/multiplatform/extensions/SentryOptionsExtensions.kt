@@ -20,7 +20,7 @@ internal fun CocoaSentryOptions.applyCocoaBaseOptions(options: SentryOptions) {
     this.dsn = options.dsn
     this.attachStacktrace = options.attachStackTrace
     this.dist = options.dist
-    this.environment = options.environment
+    this.environment = options.environment.orEmpty()
     this.releaseName = options.release
     this.debug = options.debug
     this.sessionTrackingIntervalMillis = options.sessionTrackingIntervalMillis.convert()
