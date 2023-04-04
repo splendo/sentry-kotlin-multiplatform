@@ -16,10 +16,10 @@ kotlin {
     cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
+        ios.deploymentTarget = "16.2"
         podfile = project.file("../iosApp/Podfile")
 
-        pod("Sentry", "~> 7.21.0")
+        pod("Sentry", "~> 8.3.3")
 
         framework {
             baseName = "shared"

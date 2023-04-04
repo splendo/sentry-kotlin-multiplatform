@@ -11,9 +11,9 @@ Pod::Spec.new do |spec|
     spec.libraries                = "c++"
     spec.module_name              = "#{spec.name}_umbrella"
 
-    spec.ios.deployment_target = '14.1'
+    spec.ios.deployment_target = '16.2'
 
-    spec.dependency 'Sentry', '~> 7.21.0'
+    spec.dependency 'Sentry', '~> 8.3.3'
 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':sentry-samples:kmp-app:shared',
