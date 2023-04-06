@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'sentry_kotlin_multiplatform'
-    spec.version                  = '0.0.1-splendo'
+    spec.version                  = '0.0.2-splendo'
     spec.homepage                 = 'https://github.com/getsentry/sentry-kotlin-multiplatform'
     spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
     spec.authors                  = ''
