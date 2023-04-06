@@ -45,7 +45,7 @@ For a multiplatform project, you need to add the sentry-kotlin-multiplatform art
 ```Kotlin
 val commonMain by getting {
   dependencies {
-    api("io.sentry:sentry-kotlin-multiplatform:0.0.1")
+    api("io.sentry:sentry-kotlin-multiplatform:0.0.2-splendo")
   }
 }
 ```
@@ -60,13 +60,13 @@ cocoapods {
   // ...
   
   // Make sure Sentry Cocoa in your project matches this version
-  pod("Sentry", "~> 7.21.0")
+  pod("Sentry", "~> 8.3.3")
 
   framework {
     baseName = "shared"
 
     // Export the SDK in order to be able to access it directly in the iOS project
-    export("io.sentry:sentry-kotlin-multiplatform:0.0.1")
+    export("io.sentry:sentry-kotlin-multiplatform:0.0.2-splendo")
   }
 }
 ```
