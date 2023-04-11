@@ -1,12 +1,12 @@
 PODS:
-  - Sentry (8.4.0):
-    - Sentry/Core (= 8.4.0)
-    - SentryPrivate (= 8.4.0)
-  - Sentry/Core (8.4.0):
-    - SentryPrivate (= 8.4.0)
-  - SentryPrivate (8.4.0)
+  - Sentry (8.2.0):
+    - Sentry/Core (= 8.2.0)
+    - SentryPrivate (= 8.2.0)
+  - Sentry/Core (8.2.0):
+    - SentryPrivate (= 8.2.0)
+  - SentryPrivate (8.2.0)
   - shared (1.0):
-    - Sentry (~> 8.4.0)
+    - Sentry (~> 8.2.0)
 
 DEPENDENCIES:
   - shared (from `../shared`)

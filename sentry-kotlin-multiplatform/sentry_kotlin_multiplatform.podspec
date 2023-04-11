@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/sentry_kotlin_multiplatform.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '16.2'
-    spec.dependency 'Sentry', '~> 8.4.0'
+    spec.dependency 'Sentry', '~> 8.2.0'
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':sentry-kotlin-multiplatform',
