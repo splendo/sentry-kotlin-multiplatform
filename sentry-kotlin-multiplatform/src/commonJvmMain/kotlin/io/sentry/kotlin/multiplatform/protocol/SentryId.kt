@@ -2,17 +2,20 @@ package io.sentry.kotlin.multiplatform.protocol
 
 import io.sentry.kotlin.multiplatform.JvmSentryId
 
-actual data class SentryId actual constructor(val sentryIdString: String) : ISentryId {
+public actual data class SentryId actual constructor(val sentryIdString: String) {
 
-    actual companion object {
-        actual val EMPTY_ID: SentryId = SentryId("")
+    public actual companion object {
+        public actual val EMPTY_ID: SentryId = SentryId("")
     }
 
     private var jvmSentryId: JvmSentryId? = null
 
     init {
-        jvmSentryId = if (sentryIdString.isEmpty()) JvmSentryId.EMPTY_ID
-        else JvmSentryId(sentryIdString)
+        jvmSentryId = if (sentryIdString.isEmpty()) {
+            JvmSentryId.EMPTY_ID
+        } else {
+            JvmSentryId(sentryIdString)
+        }
     }
 
     actual override fun toString(): String {

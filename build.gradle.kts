@@ -3,50 +3,22 @@ import com.vanniktech.maven.publish.MavenPublishPlugin
 import com.vanniktech.maven.publish.MavenPublishPluginExtension
 
 plugins {
-    `maven-publish`
-    id("com.vanniktech.maven.publish") version "0.18.0"
-    id("com.diffplug.spotless") version "6.7.2"
-}
-
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("com.android.tools.build:gradle:7.0.4")
-    }
-}
-
-spotless {
-    lineEndings = LineEnding.UNIX
-
-    kotlin {
-        target("**/*.kt")
-        ktlint()
-    }
-    kotlinGradle {
-        target("**/*.kts")
-        ktlint()
-    }
+    id(Config.gradleMavenPublishPlugin).version(Config.gradleMavenPublishPluginVersion)
+    id(Config.QualityPlugins.spotless).version(Config.QualityPlugins.spotlessVersion)
+    kotlin(Config.multiplatform).version(Config.kotlinVersion).apply(false)
+    kotlin(Config.cocoapods).version(Config.kotlinVersion).apply(false)
+    id(Config.jetpackCompose).version(Config.composeVersion).apply(false)
+    id(Config.androidGradle).version(Config.agpVersion).apply(false)
+    id(Config.BuildPlugins.buildConfig).version(Config.BuildPlugins.buildConfigVersion).apply(false)
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-        google()
-    }
-    group = "io.sentry"
+    group = Config.Sentry.group
     version = properties["versionName"].toString()
-
-    apply(plugin = "com.diffplug.spotless")
 }
 
 subprojects {
-    if (!this.name.contains("samples") && !this.name.contains("shared")) {
+    if (this.name.contains("sentry-kotlin-multiplatform")) {
         apply<DistributionPlugin>()
 
         val sep = File.separator
@@ -75,5 +47,18 @@ subprojects {
                 releaseSigningEnabled = false
             }
         }
+    }
+}
+
+spotless {
+    lineEndings = LineEnding.UNIX
+
+    kotlin {
+        target("**/*.kt")
+        ktlint()
+    }
+    kotlinGradle {
+        target("**/*.kts")
+        ktlint()
     }
 }
