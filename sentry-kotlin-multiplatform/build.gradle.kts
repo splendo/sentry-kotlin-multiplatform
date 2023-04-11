@@ -100,7 +100,7 @@ kotlin {
             summary = "Official Sentry SDK Kotlin Multiplatform"
             homepage = "https://github.com/getsentry/sentry-kotlin-multiplatform"
 
-            pod("Sentry", "~> 8.3.3")
+            pod("Sentry", "~> 8.4.0")
 
             ios.deploymentTarget = "16.2"
         }

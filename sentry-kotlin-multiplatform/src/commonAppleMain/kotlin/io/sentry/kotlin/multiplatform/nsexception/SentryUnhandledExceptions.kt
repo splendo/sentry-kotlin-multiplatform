@@ -33,7 +33,6 @@ import NSException.Sentry.isCrashEvent
 import NSException.Sentry.kSentryLevelFatal
 import NSException.Sentry.options
 import NSException.Sentry.prepareEvent
-import NSException.Sentry.sdkInfo
 import NSException.Sentry.storeEnvelope
 import NSException.Sentry.threadInspector
 import kotlinx.cinterop.UnsafeNumber
@@ -79,7 +78,7 @@ private fun Throwable.asSentryEnvelope(): SentryEnvelope {
     } ?: event
     val item = SentryEnvelopeItem(preparedEvent)
     // TODO: pass traceState when enabling performance monitoring for KMP SDK
-    val header = SentryEnvelopeHeader(preparedEvent.eventId, SentrySDK.options?.sdkInfo, null)
+    val header = SentryEnvelopeHeader(preparedEvent.eventId, null)
     return SentryEnvelope(header, listOf(item))
 }
 

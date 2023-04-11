@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'sentry_kotlin_multiplatform'
-    spec.version                  = '0.0.2-splendo'
+    spec.version                  = '0.0.3-splendo'
     spec.homepage                 = 'https://github.com/getsentry/sentry-kotlin-multiplatform'
     spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
     spec.authors                  = ''
@@ -13,7 +13,7 @@ Pod::Spec.new do |spec|
 
     spec.ios.deployment_target = '16.2'
 
-    spec.dependency 'Sentry', '~> 8.3.3'
+    spec.dependency 'Sentry', '~> 8.4.0'
 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':sentry-kotlin-multiplatform',

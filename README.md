@@ -11,6 +11,12 @@
 This project is an experimental SDK for Kotlin Multiplatform.
 This SDK is a wrapper around different platforms such as JVM, Android, iOS, macOS, watchOS, tvOS that can be used on Kotlin Multiplatform.
 
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.8.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+
+| Packages                                | Maven Central
+|-----------------------------------------| -------
+| sentry-kotlin-multiplatform                          | [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.sentry/sentry-kotlin-multiplatform/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.sentry/sentry-kotlin-multiplatform)
+
 ## Supported Platforms
 
 | Target Platform | Target preset |
@@ -24,19 +30,12 @@ This SDK is a wrapper around different platforms such as JVM, Android, iOS, macO
 
 ## Configure Repository
 
-The Kotlin Multiplatform SDK is available only on `mavenLocal`. You can declare this repository in your build script as follows:
+The Kotlin Multiplatform SDK is available on `mavenCentral`. You can declare this repository in your build script as follows:
 
 ```gradle
 repositories {
-  // Currently only supported locally
-  mavenLocal()
+  mavenCentral()
 }
-```
-
-and then run:
-
-```bash
-./gradlew publishToMavenLocal
 ```
 
 ## Add dependency
@@ -45,28 +44,28 @@ For a multiplatform project, you need to add the sentry-kotlin-multiplatform art
 ```Kotlin
 val commonMain by getting {
   dependencies {
-    api("io.sentry:sentry-kotlin-multiplatform:0.0.2-splendo")
+    api("io.sentry:sentry-kotlin-multiplatform:<version>")
   }
 }
 ```
 
 ### Cocoa
 
-If you are targeting Apple platforms (iOS, macOS, watchOS, tvOS), then you need to use CocoaPods to include [Sentry Cocoa](https://github.com/getsentry/sentry-cocoa) into this SDK.
-One way to achieve this is to include the Sentry Cocoa SDK via the Kotlin CocoaPods extension. Be aware that your Sentry Cocoa version has to match the SDK's version. Currently the supported version is `~> 7.21.0` 
+If you are targeting Apple platforms (iOS, macOS, watchOS, tvOS), then you can use CocoaPods to include [Sentry Cocoa](https://github.com/getsentry/sentry-cocoa) into this SDK.
+One way to achieve this is to include the Sentry Cocoa SDK via the Kotlin CocoaPods extension. Be aware that your Sentry Cocoa version has to match the version used in the KMP SDK.
 
 ```gradle
 cocoapods {
   // ...
   
   // Make sure Sentry Cocoa in your project matches this version
-  pod("Sentry", "~> 8.3.3")
+  pod("Sentry", "~> 8.4.0")
 
   framework {
     baseName = "shared"
 
     // Export the SDK in order to be able to access it directly in the iOS project
-    export("io.sentry:sentry-kotlin-multiplatform:0.0.2-splendo")
+    export("io.sentry:sentry-kotlin-multiplatform:<version>")
   }
 }
 ```
@@ -75,13 +74,23 @@ cocoapods {
 
 There are two main strategies for initializing the SDK:
   - Shared initializer
-  - Platform specific initializers
+  - Platform-specific initializers
 
 Shared initializer will initialize the SDK in your shared codebase but you will use the same configuration options for all platforms. 
 
-Platform specific initializers initialize the SDK directly in the target platform. The benefit is being able to customize the configuration options specific to the platforms.
+Platform-specific initializers initialize the SDK directly in the target platform. The benefit is being able to customize the configuration options specific to the platforms.
 
 It is also possible to mix those two strategies based on your needs and project setup.
+
+## Prerequisites (Android-only)
+
+Both of the strategies require disabling auto-init on Android to not clash with the `ContentProvider`, which auto-initializes the Sentry Android SDK. To do so, add the following to the `AndroidManifest.xml` file under your `androidMain` source set:
+
+```xml
+<application>
+    <meta-data android:name="io.sentry.auto-init" android:value="false" />
+</application>
+```
 
 ## Shared Initializer
 
@@ -90,13 +99,21 @@ Create a Kotlin file in your commonMain e.g. `AppSetup.kt` or however you want t
 ```Kotlin
 import io.sentry.kotlin.multiplatform.Context
 import io.sentry.kotlin.multiplatform.Sentry
+import io.sentry.kotlin.multiplatform.OptionsConfiguration
 
 // The context is needed for Android initializations
-fun initializeSentry(context: Context?) {
-  Sentry.init(context) {
-    it.dsn = "__DSN__"
-  }
+fun initializeSentry(context: Context) {
+  Sentry.init(context, optionsConfiguration())
 }
+
+fun initializeSentry() {
+  Sentry.init(optionsConfiguration())
+}
+
+private fun optionsConfiguration(): OptionsConfiguration = {
+  it.dsn = "__DSN__"
+}
+
 ```
 
 Now call this function in an early lifecycle stage in your platforms.
@@ -124,13 +141,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
-        AppSetupKt.initializeSentry(context = nil)
+        AppSetupKt.initializeSentry()
         return true        
     }
 }
 ```
 
-## Platform Specific Initializers
+## Platform-Specific Initializers
 ### Android
 
 ```Kotlin
@@ -166,7 +183,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 ## Debug Symbols for Apple targets
 
-A dSYM upload is required for Sentry to symbolicate your crash logs for viewing. The symbolication process unscrambles Apple’s crash logs to reveal the function, variables, file names, and line numbers of the crash. The dSYM file can be uploaded through the sentry-cli tool or through a Fastlane action. Please visit our [sentry.io guide](https://docs.sentry.io/clients/cocoa/dsym/) to get started on uploading debug symbols.
+A dSYM upload is required for Sentry to symbolicate your crash logs for viewing. The symbolication process unscrambles Apple’s crash logs to reveal the function, variables, file names, and line numbers of the crash. The dSYM file can be uploaded through the sentry-cli tool or through a Fastlane action. Please visit our [sentry.io guide](https://docs.sentry.io/platforms/apple/dsym/) to get started on uploading debug symbols.
 
  ## Troubleshooting
 
