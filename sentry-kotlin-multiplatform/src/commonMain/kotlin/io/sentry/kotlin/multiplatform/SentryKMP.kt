@@ -4,8 +4,6 @@ import io.sentry.kotlin.multiplatform.protocol.Breadcrumb
 import io.sentry.kotlin.multiplatform.protocol.SentryId
 import io.sentry.kotlin.multiplatform.protocol.User
 import io.sentry.kotlin.multiplatform.protocol.UserFeedback
-import kotlin.experimental.ExperimentalObjCRefinement
-import kotlin.native.HiddenFromObjC
 
 public typealias ScopeCallback = (Scope) -> Unit
 public typealias OptionsConfiguration = (SentryOptions) -> Unit
@@ -21,8 +19,6 @@ public object Sentry {
      * @param context: The context (used for retrieving Android Context)
      * @param configuration Options configuration handler.
      */
-    @OptIn(ExperimentalObjCRefinement::class)
-    @HiddenFromObjC
     public fun init(context: Context, configuration: OptionsConfiguration) {
         SentryBridge.init(context, configuration)
     }
