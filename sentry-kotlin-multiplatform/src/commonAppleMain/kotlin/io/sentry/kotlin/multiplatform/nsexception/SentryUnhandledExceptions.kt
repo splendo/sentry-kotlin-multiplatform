@@ -105,6 +105,7 @@ private fun Throwable.asSentryEvent(): SentryEvent = SentryEvent(kSentryLevelFat
     exceptions = this@asSentryEvent
         .let { throwable -> throwable.causes.asReversed() + throwable }
         .map { it.asNSException().asSentryException(currentThread?.threadId) }
+    freeze()
 }
 
 /**
