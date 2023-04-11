@@ -31,15 +31,12 @@ import NSException.Sentry.SentryThreadInspector
 import NSException.Sentry.currentHub
 import NSException.Sentry.isCrashEvent
 import NSException.Sentry.kSentryLevelFatal
-import NSException.Sentry.options
 import NSException.Sentry.prepareEvent
-import NSException.Sentry.sdkInfo
 import NSException.Sentry.storeEnvelope
 import NSException.Sentry.threadInspector
 import kotlinx.cinterop.UnsafeNumber
 import platform.Foundation.NSException
 import platform.Foundation.NSNumber
-import kotlin.native.concurrent.freeze
 
 /**
  * Drops the Kotlin crash that follows an unhandled Kotlin exception except our custom SentryEvent.
@@ -79,7 +76,7 @@ private fun Throwable.asSentryEnvelope(): SentryEnvelope {
     } ?: event
     val item = SentryEnvelopeItem(preparedEvent)
     // TODO: pass traceState when enabling performance monitoring for KMP SDK
-    val header = SentryEnvelopeHeader(preparedEvent.eventId, SentrySDK.options?.sdkInfo, null)
+    val header = SentryEnvelopeHeader(preparedEvent.eventId, null, null)
     return SentryEnvelope(header, listOf(item))
 }
 
