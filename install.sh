@@ -8,3 +8,5 @@ if ! gem list cocoapods-generate -i > /dev/null 2>&1; then
 fi
 
 echo "Gem cocoapods-generate is installed!"
+
+pod repo update
