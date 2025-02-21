@@ -1,9 +1,9 @@
 [versions]
 detekt = "1.23.6"
-kotlin = "1.9.23"
 pluginPublish = "1.2.1"
 buildConfig = "5.3.5"
 vanniktechPublish = "0.18.0"
+kotlin = "2.1.0"
 kover = "0.7.3"
 
 [plugins]

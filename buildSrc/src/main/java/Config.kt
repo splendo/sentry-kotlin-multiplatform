@@ -1,6 +1,6 @@
 object Config {
     val agpVersion = "7.4.2"
-    val kotlinVersion = "1.9.23"
+    val kotlinVersion = "2.1.0"
     val composeVersion = "1.6.1"
     val gradleMavenPublishPluginVersion = "0.18.0"
 
@@ -73,9 +73,9 @@ object Config {
     }
 
     object Cocoa {
-        val iosDeploymentTarget = "11.0"
+        val iosDeploymentTarget = "13.0"
         val osxDeploymentTarget = "10.13"
-        val tvosDeploymentTarget = "11.0"
+        val tvosDeploymentTarget = "13.0"
         val watchosDeploymentTarget = "4.0"
     }
 
